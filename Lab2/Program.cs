@@ -54,7 +54,16 @@ public class Program
 
     private static bool Matches(char closing, char opening)
     {
-        throw new NotImplementedException();
+        if (opening == '(' && closing == ')')
+            return true;
+        else if (opening == '{' && closing == '}')
+            return true;
+        else if (opening == '[' && closing == ']')
+            return true;
+        else if (opening == '<' && closing == '>')
+            return true;
+        else
+            return false;
     }
 
 
@@ -62,18 +71,66 @@ public class Program
     {
         // parse string into tokens
         string[] tokens = s.Split();
+        Stack<double> stack = new Stack<double>();
+
 
         // foreach token
         // if it's a number, push to stack
+        foreach (string t in tokens)
+        {
+            double a, b, answer;
+            double value;
+            if (double.TryParse(t, out value))
+            {
+                stack.Push(value);
+            }
 
-        // if it's a math operator, pop twice;
-        // compute result;
-        // push result onto stack
+            else
+            {
+                a = stack.Pop();
+                b = stack.Pop();
 
-        // return top of stack (if the stack has 1 element)
+                if (t == "+")
+                {
+                    answer = a + b;
+                    stack.Push(answer);
+                }
+                else if (t == "-")
+                {
+                    answer = a - b;
+                    stack.Push(answer);
+                }
+                else if (t == "/")
+                {
+                    answer = a / b;
+                    stack.Push(answer);
+                }
+                else if (t == "*")
+                {
+                    answer = a * b;
+                    stack.Push(answer);
+                }
 
-        return null;
+            }
+
+            // if it's a math operator, pop twice;
+
+            // compute result;
+            // push result onto stack
+
+            // return top of stack (if the stack has 1 element)
+        }
+        
+        if (stack.Count == 1)
+        {
+            return stack.Pop();
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }
+
 
